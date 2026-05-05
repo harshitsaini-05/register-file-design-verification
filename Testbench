@@ -1,0 +1,56 @@
+`timescale 1ns/1ps
+module tb_reg4bit;
+logic clk;
+logic we;
+logic [1:0] w_addr;
+logic [3:0] w_data;
+logic [1:0] r_addr1;
+logic [1:0] r_addr2;
+logic [3:0] r_data1;
+logic [3:0] r_data2;
+
+reg4bit dut (.clk(clk),.we(we),.w_addr(w_addr),.w_data(w_data),.r_addr1(r_addr1),.r_addr2(r_addr2),.r_data1(r_data1),.r_data2(r_data2));
+
+always #5 clk=~clk;
+logic [3:0] w_addr1,w_addr2,w_addr3,w_addr4;
+initial begin
+clk=0;
+we=0;
+w_addr = 0;w_data=0;r_addr1 = 0;r_addr2 = 0;
+#10;
+we=1;
+$display("------------------Manual test for write and read---------------");
+w_addr = 0;w_data = 4'b1111;
+#5; w_addr1 = w_data;
+$display(" writing data in 1:%0d",w_data);
+#10; w_addr = 1; w_data = 4'b1010;
+#5; w_addr2 = w_data;
+$display("writing data in 2:%0d",w_data);
+#10; we = 0;
+#10; r_addr1 = 0; r_addr2 = 1;
+#5; $display("Read1 = %b Read2 = %0b",r_data1,r_data2);
+if(r_data1 == w_addr1 && r_data2 == w_addr2) begin
+$display("--------------------------------SELF CHECKING----------------------------");
+$display("test case successfully passsed");
+end
+else
+$display("test case Failed");
+#5; $display("---------------manual test finished-----------------");
+#10;$display("------------------writing random value and read----------------------");
+#2; we=1;
+w_addr = 2;w_data = $urandom;w_addr3=w_data;
+$display(" Writing Random data in 1:%0d",w_data);
+#10; w_addr = 3; w_data = $urandom;w_addr4=w_data;
+$display("Writing Random data in 2:%0d",w_data);
+#10; we = 0;
+#10; r_addr1 = 2; r_addr2 = 3;
+#5; $display("Read1 = %b Read2 = %0b",r_data1,r_data2);
+if(r_data1 == w_addr3 && r_data2 == w_addr4) begin
+$display("Random test case successfully passsed");
+end
+else
+$display("Random test case Failed");
+$display("--------------------Random Test Finished----------------------------");
+#20; $finish;
+end
+endmodule
