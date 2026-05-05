@@ -76,8 +76,8 @@ Simulation ensures:
 
 * Simulation performed using tools like:
 
-  * ModelSim / QuestaSim
-  * EDA Playground
+  * Simvision Cadence
+  
 
 Waveforms are analyzed to verify:
 
@@ -90,7 +90,7 @@ Waveforms are analyzed to verify:
 ##Tools & Technologies
 
 * **SystemVerilog HDL**
-* **ModelSim **
+* ** Simvision Cadence **
 * **Digital Design Concepts**
 
 ---
